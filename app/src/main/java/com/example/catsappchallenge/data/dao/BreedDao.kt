@@ -14,6 +14,9 @@ interface BreedDao {
     @Upsert
     suspend fun upsertBreedList(breeds: List<Breed>)
 
+    @Query("UPDATE breed SET favourite = :favourite WHERE id = :breedId")
+    fun updateFavouriteByBreedId(breedId: String, favourite: Boolean)
+
     @Query("SELECT id, name, image FROM breed WHERE (:filterFavourite IS NULL OR favourite = :filterFavourite)")
     fun getAllBreeds(filterFavourite: Boolean?): Flow<List<Breed>>
 
