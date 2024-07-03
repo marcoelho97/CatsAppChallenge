@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -18,6 +19,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        // TODO: SCHEMA Annotations - TODO#1
     }
 
     buildTypes {
@@ -71,5 +73,9 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 }
