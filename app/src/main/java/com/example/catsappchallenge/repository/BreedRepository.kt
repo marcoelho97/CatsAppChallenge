@@ -2,6 +2,7 @@ package com.example.catsappchallenge.repository
 
 import android.content.Context
 import com.example.catsappchallenge.data.dao.BreedDao
+import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.BreedListDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,5 +25,9 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
         }
         breedList = breedDao.getAllBreeds(null)
         return@withContext breedList
+    }
+
+    fun getBreedById(breedId: String): Breed {
+        return breedDao.getBreedById(breedId)
     }
 }
