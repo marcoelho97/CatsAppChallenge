@@ -18,7 +18,7 @@ interface BreedDao {
     @Query("UPDATE breed SET favourite = :favourite WHERE id = :breedId")
     fun updateFavouriteByBreedId(breedId: String, favourite: Boolean)
 
-    @Query("SELECT id, name, image FROM breed WHERE (:filterFavourite IS NULL OR favourite = :filterFavourite)")
+    @Query("SELECT id, name, image, favourite FROM breed WHERE (:filterFavourite IS NULL OR favourite = :filterFavourite)")
     fun getAllBreeds(filterFavourite: Boolean?): List<BreedListDTO>
 
     @Query("SELECT * FROM breed WHERE id = :breedId")
