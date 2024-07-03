@@ -12,10 +12,10 @@ data class Breed(
     val origin: String,
     val temperament: List<String>,
     val description: String,
-    val image: String, // Url
+    val image: String?, // Url
 
-    val lowLifeSpan: Int,
-    val highLifeSpan: Int,
+    val lowLifeSpan: Float,
+    val highLifeSpan: Float,
 
     val favourite: Boolean,
 )

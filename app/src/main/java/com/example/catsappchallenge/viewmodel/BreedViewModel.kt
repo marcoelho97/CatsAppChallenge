@@ -32,7 +32,7 @@ class BreedViewModel(private val breedRepository: BreedRepository): ViewModel() 
     }
 
     private suspend fun getAllBreeds() {
-        breedList.value = breedRepository.getAllBreeds()
+        breedList.value = breedRepository.getAllBreedsFromDb()
     }
 
     // TODO: getBreedById
