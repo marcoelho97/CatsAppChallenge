@@ -1,7 +1,6 @@
 package com.example.catsappchallenge.repository
 
 import android.content.Context
-import android.util.Log
 import com.example.catsappchallenge.data.dao.BreedDao
 import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.BreedListDTO
@@ -52,5 +51,14 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
 
     fun getBreedById(breedId: String): Breed {
         return breedDao.getBreedById(breedId)
+    }
+
+    suspend fun updateFavouriteByBreed(breed: Breed, favourite: Boolean) = withContext(Dispatchers.IO) {
+        // TODO: Test with a non existent ID
+        breedDao.updateFavouriteByBreedId(
+            breedId = breed.id,
+            favourite = favourite
+        )
+        breedList = getAllBreedsFromDb()
     }
 }

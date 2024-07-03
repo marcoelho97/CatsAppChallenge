@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.repository.BreedRepository
 import kotlinx.coroutines.launch
@@ -36,5 +37,10 @@ class BreedViewModel(private val breedRepository: BreedRepository): ViewModel() 
     }
 
     // TODO: getBreedById
+
+    suspend fun updateFavourite(breed: Breed, favourite: Boolean) {
+        breedRepository.updateFavouriteByBreed(breed, favourite)
+        getAllBreeds()
+    }
 
 }

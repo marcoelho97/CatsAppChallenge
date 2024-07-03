@@ -5,7 +5,6 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.BreedListDTO
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BreedDao {
@@ -16,7 +15,7 @@ interface BreedDao {
     suspend fun upsertBreedList(breeds: List<Breed>)
 
     @Query("UPDATE breed SET favourite = :favourite WHERE id = :breedId")
-    fun updateFavouriteByBreedId(breedId: String, favourite: Boolean)
+    suspend fun updateFavouriteByBreedId(breedId: String, favourite: Boolean)
 
     @Query("SELECT id, name, image, favourite FROM breed WHERE (:filterFavourite IS NULL OR favourite = :filterFavourite)")
     fun getAllBreeds(filterFavourite: Boolean?): List<BreedListDTO>
