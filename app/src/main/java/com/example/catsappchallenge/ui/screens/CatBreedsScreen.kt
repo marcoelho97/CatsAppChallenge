@@ -34,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,6 +42,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.network.RetrofitInstance
+import com.example.catsappchallenge.utils.SearchManager
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +82,7 @@ fun CatBreedsScreen(
 
 @Composable
 fun SearchBar() {
-    var textState by remember { mutableStateOf(TextFieldValue("")) }
+    var searchText by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -90,14 +90,18 @@ fun SearchBar() {
             .padding(16.dp)
     ) {
         TextField(
-            value = textState,
+            value = searchText,
             onValueChange = {
-                textState = it
-                // Query
+                searchText = it
+                SearchManager.setSearchQuery(it)
+            },
+            label = {
+                Text(text = "Search")
             },
             placeholder = {
                 Text(text = "Search...")
             },
+            singleLine = true,
             shape = RoundedCornerShape(
                 topStart = 10.dp,
                 topEnd = 10.dp
@@ -117,7 +121,7 @@ fun CatsGrid(breedList: List<BreedListDTO>) {
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        items(breedList) { breed ->
+        items(breedList, key = { it.id }) { breed ->
             CatCard(breed = breed)
         }
     }
