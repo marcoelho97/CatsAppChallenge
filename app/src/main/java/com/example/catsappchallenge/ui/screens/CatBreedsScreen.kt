@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -44,6 +45,7 @@ import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.network.RetrofitInstance
 import com.example.catsappchallenge.utils.SearchManager
 import com.example.catsappchallenge.viewmodel.BreedViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +77,7 @@ fun CatBreedsScreen(
                 .padding(paddingValues = innerPadding)
         ) {
             SearchBar()
-            CatsGrid(breedList = breedList)
+            CatsGrid(breedList = breedList, breedViewModel = breedViewModel)
         }
     }
 }
@@ -114,7 +116,7 @@ fun SearchBar() {
 }
 
 @Composable
-fun CatsGrid(breedList: List<BreedListDTO>) {
+fun CatsGrid(breedList: List<BreedListDTO>, breedViewModel: BreedViewModel) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         modifier = Modifier
@@ -122,13 +124,13 @@ fun CatsGrid(breedList: List<BreedListDTO>) {
             .padding(horizontal = 16.dp)
     ) {
         items(breedList, key = { it.id }) { breed ->
-            CatCard(breed = breed)
+            CatCard(breed = breed, breedViewModel)
         }
     }
 }
 
 @Composable
-fun CatCard(breed: BreedListDTO) {
+fun CatCard(breed: BreedListDTO, breedViewModel: BreedViewModel) {
     var retryAttempted by remember { mutableStateOf(false) }
     var imageUrl by remember {
         mutableStateOf(
@@ -138,7 +140,6 @@ fun CatCard(breed: BreedListDTO) {
             )
         )
     }
-    var isFavourite by remember { mutableStateOf(false) }
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageUrl)
@@ -182,7 +183,9 @@ fun CatCard(breed: BreedListDTO) {
                         indication = null
                     ) {
                         // TODO: ViewModel to change favourite status
-                        isFavourite = !isFavourite
+                        breedViewModel.viewModelScope.launch {
+                            breedViewModel.updateFavourite(breed.id, !breed.favourite)
+                        }
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -190,14 +193,14 @@ fun CatCard(breed: BreedListDTO) {
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = null,
-                    tint = Color.Black,
+                    tint = if (breed.favourite) Color.White else Color.Black,
                     modifier = Modifier
                         .size(42.dp)
                 )
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = null,
-                    tint = if (isFavourite) Color.Black else Color.White,
+                    tint = if (breed.favourite) Color.Black else Color.White,
                     modifier = Modifier
                         .size(30.dp)
                 )

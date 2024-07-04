@@ -55,13 +55,16 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
         return breedDao.getBreedById(breedId)
     }
 
-    suspend fun updateFavouriteByBreed(breed: Breed, favourite: Boolean, searchFilter: String) =
+    suspend fun updateFavouriteByBreed(
+        breedId: String,
+        favourite: Boolean
+    ) =
         withContext(Dispatchers.IO) {
             // TODO: Test with a non existent ID
             breedDao.updateFavouriteByBreedId(
-                breedId = breed.id,
+                breedId = breedId,
                 favourite = favourite
             )
-            breedList = getAllBreedsFromDb(searchFilter = searchFilter)
+            return@withContext
         }
 }
