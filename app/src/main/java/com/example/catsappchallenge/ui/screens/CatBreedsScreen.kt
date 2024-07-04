@@ -14,12 +14,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,9 +74,38 @@ fun CatBreedsScreen(
                 .fillMaxSize()
                 .padding(paddingValues = innerPadding)
         ) {
-            // SearchBar()
+            SearchBar()
             CatsGrid(breedList = breedList)
         }
+    }
+}
+
+@Composable
+fun SearchBar() {
+    var textState by remember { mutableStateOf(TextFieldValue("")) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        TextField(
+            value = textState,
+            onValueChange = {
+                textState = it
+                // Query
+            },
+            placeholder = {
+                Text(text = "Search...")
+            },
+            shape = RoundedCornerShape(
+                topStart = 10.dp,
+                topEnd = 10.dp
+            ),
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        )
     }
 }
 
@@ -81,7 +113,9 @@ fun CatBreedsScreen(
 fun CatsGrid(breedList: List<BreedListDTO>) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     ) {
         items(breedList) { breed ->
             CatCard(breed = breed)
