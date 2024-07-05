@@ -9,7 +9,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +24,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun BoxScope.FavouriteIcon(breedViewModel: BreedViewModel, breed: BreedListDTO) {
+    var isFavourite by remember { mutableStateOf(breed.favourite) }
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -33,7 +37,9 @@ fun BoxScope.FavouriteIcon(breedViewModel: BreedViewModel, breed: BreedListDTO) 
             ) {
                 // TODO: ViewModel to change favourite status
                 breedViewModel.viewModelScope.launch {
-                    breedViewModel.updateFavourite(breed.id, !breed.favourite)
+                    if (breedViewModel.updateFavourite(breed.id, !breed.favourite)) {
+                        isFavourite = !isFavourite
+                    }
                 }
             },
     ) {
@@ -41,14 +47,14 @@ fun BoxScope.FavouriteIcon(breedViewModel: BreedViewModel, breed: BreedListDTO) 
         Icon(
             imageVector = Icons.Default.Star,
             contentDescription = null,
-            tint = if (breed.favourite) Color.White else Color.Black,
+            tint = if (isFavourite) Color.White else Color.Black,
             modifier = Modifier
-                .size(42.dp)
+                .size(36.dp)
         )
         Icon(
             imageVector = Icons.Default.Star,
             contentDescription = null,
-            tint = if (breed.favourite) Color.Black else Color.White,
+            tint = if (isFavourite) Color.Black else Color.White,
             modifier = Modifier
                 .size(30.dp)
         )

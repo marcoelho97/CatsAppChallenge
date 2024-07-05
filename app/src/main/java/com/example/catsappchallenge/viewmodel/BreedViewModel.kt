@@ -58,12 +58,13 @@ class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel()
         return breedRepository.getBreedById(breedId)
     }
 
-    suspend fun updateFavourite(breedId: String, favourite: Boolean) {
-        breedRepository.updateFavouriteByBreed(
+    suspend fun updateFavourite(breedId: String, favourite: Boolean): Boolean {
+        val wasUpdated = breedRepository.updateFavouriteByBreed(
             breedId = breedId,
             favourite = favourite
         )
         getAllBreeds()
+        return wasUpdated
     }
 
 }

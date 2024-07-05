@@ -61,13 +61,12 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
     suspend fun updateFavouriteByBreed(
         breedId: String,
         favourite: Boolean
-    ) =
+    ): Boolean =
         withContext(Dispatchers.IO) {
             // TODO: Test with a non existent ID
-            breedDao.updateFavouriteByBreedId(
+            return@withContext breedDao.updateFavouriteByBreedId(
                 breedId = breedId,
                 favourite = favourite
-            )
-            return@withContext
+            ) == 1
         }
 }
