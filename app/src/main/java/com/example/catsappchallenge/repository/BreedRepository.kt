@@ -15,7 +15,7 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
     private var breedList: List<BreedListDTO> = emptyList()
 
     suspend fun fetchAndInsertAllBreeds() = withContext(Dispatchers.IO) {
-        val breedList = getAllBreedsFromDb(searchFilter = null)
+        val breedList = getAllBreedsFromDb(searchFilter = null, filterFavourites = null)
         if (breedList.isNotEmpty()) {
             return@withContext
         }
@@ -42,11 +42,14 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
         return@withContext
     }
 
-    suspend fun getAllBreedsFromDb(searchFilter: String?): List<BreedListDTO> =
+    suspend fun getAllBreedsFromDb(
+        searchFilter: String?,
+        filterFavourites: Boolean?
+    ): List<BreedListDTO> =
         withContext(Dispatchers.IO) {
             breedList = breedDao.getAllBreeds(
                 searchFilter = prepareSearchFilter(searchFilter),
-                filterFavourite = null
+                filterFavourite = filterFavourites
             )
             return@withContext breedList
         }

@@ -14,6 +14,9 @@ class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel()
     // Breed List
     val breedList: MutableState<List<BreedListDTO>> = mutableStateOf(emptyList())
 
+    // In Favourites List
+    private val filterFavourite: MutableState<Boolean?> = mutableStateOf(null)
+
     // Loading status
     val isLoading: MutableState<Boolean> = mutableStateOf(true)
 
@@ -40,8 +43,14 @@ class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel()
 
     private suspend fun getAllBreeds() {
         breedList.value = breedRepository.getAllBreedsFromDb(
-            searchFilter = prepareSearchFilter(SearchManager.searchFilter.value)
+            searchFilter = prepareSearchFilter(SearchManager.searchFilter.value),
+            filterFavourites = filterFavourite.value
         )
+    }
+
+    suspend fun updateFilterFavourites(filterFavourite: Boolean?) {
+        this.filterFavourite.value = filterFavourite
+        getAllBreeds()
     }
 
     // TODO: getBreedById
