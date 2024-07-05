@@ -1,5 +1,7 @@
 package com.example.catsappchallenge.ui.components.list
 
+import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,16 +16,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.ui.components.FavouriteIcon
 import com.example.catsappchallenge.ui.components.ImageBox
+import com.example.catsappchallenge.ui.screens.Screen
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 
 @Composable
-fun CatsGrid(breedList: List<BreedListDTO>, breedViewModel: BreedViewModel) {
+fun CatsGrid(
+    navController: NavController,
+    breedList: List<BreedListDTO>,
+    breedViewModel: BreedViewModel
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         modifier = Modifier
@@ -31,19 +40,36 @@ fun CatsGrid(breedList: List<BreedListDTO>, breedViewModel: BreedViewModel) {
             .padding(horizontal = 16.dp)
     ) {
         items(breedList, key = { it.id }) { breed ->
-            CatCard(breed = breed, breedViewModel)
+            CatCard(
+                navController = navController,
+                breed = breed,
+                breedViewModel = breedViewModel
+            )
         }
     }
 }
 
 @Composable
-fun CatCard(breed: BreedListDTO, breedViewModel: BreedViewModel) {
-
-
+fun CatCard(navController: NavController, breed: BreedListDTO, breedViewModel: BreedViewModel) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                if (breed.id.isBlank()) {
+                    // TODO: Better messages, preventing code repetition
+                    Toast
+                        .makeText(
+                            context,
+                            "No detailed information about this breed, for now.",
+                            Toast.LENGTH_SHORT
+                        )
+                        .show()
+                } else {
+                    navController.navigate(Screen.DetailedBreedScreen.createRoute(breed.id))
+                }
+            },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box {
