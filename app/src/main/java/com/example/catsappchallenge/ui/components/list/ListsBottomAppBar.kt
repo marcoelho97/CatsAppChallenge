@@ -11,17 +11,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.catsappchallenge.ui.screens.Screen
+import com.example.catsappchallenge.viewmodel.BreedViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun ListsBottomAppBar(navController: NavController) {
+fun ListsBottomAppBar(
+    navController: NavController,
+    breedViewModel: BreedViewModel
+) {
     BottomAppBar(
         containerColor = Color.Black,
         contentColor = Color.White
     ) {
         IconButton(
             onClick = {
+                breedViewModel.viewModelScope.launch {
+                    breedViewModel.updateFilterFavourites(null)
+                }
                 navController.navigate(Screen.BreedsListScreen.route) {
                     popUpTo(0)
                 }
@@ -40,7 +49,12 @@ fun ListsBottomAppBar(navController: NavController) {
         )
         IconButton(
             onClick = {
-                // TODO: Favourite list
+                breedViewModel.viewModelScope.launch {
+                    breedViewModel.updateFilterFavourites(true)
+                }
+                navController.navigate(Screen.FavouriteBreedsScreen.route) {
+                    popUpTo(0)
+                }
             },
             modifier = Modifier.weight(1f)
         ) {

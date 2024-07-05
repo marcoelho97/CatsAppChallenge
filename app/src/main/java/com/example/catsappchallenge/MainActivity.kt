@@ -18,7 +18,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.catsappchallenge.data.database.CatsAppDatabase
 import com.example.catsappchallenge.repository.BreedRepository
-import com.example.catsappchallenge.ui.screens.CatBreedsScreen
+import com.example.catsappchallenge.ui.screens.BreedsScreen
+import com.example.catsappchallenge.ui.screens.FavouriteBreedsScreen
 import com.example.catsappchallenge.ui.screens.Screen
 import com.example.catsappchallenge.ui.theme.CatsAppChallengeTheme
 import com.example.catsappchallenge.viewmodel.BreedViewModel
@@ -39,14 +40,20 @@ class MainActivity : ComponentActivity() {
         breedViewModel: BreedViewModel
     ) {
         composable(route = Screen.BreedsListScreen.route) {
-            CatBreedsScreen(
+            BreedsScreen(
                 navController = navController,
                 breedViewModel = breedViewModel,
                 modifier = Modifier
             )
         }
 
-        // TODO: Favourite breeds' list screen
+        composable(route = Screen.FavouriteBreedsScreen.route) {
+            FavouriteBreedsScreen(
+                navController = navController,
+                breedViewModel = breedViewModel,
+                modifier = Modifier
+            )
+        }
 
         // TODO: Breed info screen
     }
