@@ -10,7 +10,8 @@ import com.example.catsappchallenge.data.model.Breed
 
 @Database(
     entities = [Breed::class],
-    version = 1
+    version = 1,
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class CatsAppDatabase: RoomDatabase() {

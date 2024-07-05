@@ -19,7 +19,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        // TODO: SCHEMA Annotations - TODO#1
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildTypes {
