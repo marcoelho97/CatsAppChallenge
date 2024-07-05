@@ -4,14 +4,16 @@ data class BreedListDTO(
     val id: String,
     val name: String,
     val image: String?,
-    val favourite: Boolean
+    val favourite: Boolean,
+    val highLifeSpan: Float
 )
 
 fun breedListDTO(breed: Breed): BreedListDTO {
     return BreedListDTO(
-        breed.id,
-        breed.name,
-        breed.image,
-        breed.favourite
+        id = breed.id,
+        name = breed.name,
+        image = breed.image,
+        favourite = breed.favourite,
+        highLifeSpan = breed.highLifeSpan
     )
 }
