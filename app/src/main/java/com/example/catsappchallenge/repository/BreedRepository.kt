@@ -6,7 +6,6 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import android.widget.Toast
 import com.example.catsappchallenge.R
 import com.example.catsappchallenge.data.dao.BreedDao
 import com.example.catsappchallenge.data.model.Breed

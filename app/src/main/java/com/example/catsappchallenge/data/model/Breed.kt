@@ -12,7 +12,7 @@ data class Breed(
     val origin: String,
     val temperament: List<String>,
     val description: String,
-    val image: String?, // Url
+    val image: String?,
 
     val lowLifeSpan: Float,
     val highLifeSpan: Float,

@@ -14,7 +14,7 @@ import com.example.catsappchallenge.data.model.Breed
     exportSchema = true
 )
 @TypeConverters(Converters::class)
-abstract class CatsAppDatabase: RoomDatabase() {
+abstract class CatsAppDatabase : RoomDatabase() {
     abstract val breedDao: BreedDao
 
     companion object {
