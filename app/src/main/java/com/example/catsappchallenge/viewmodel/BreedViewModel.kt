@@ -25,6 +25,7 @@ class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel()
         viewModelScope.launch {
             fetchAndInsertAll()
         }
+
         SearchManager.searchFilter.observeForever {
             viewModelScope.launch {
                 getAllBreeds()
@@ -39,10 +40,15 @@ class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel()
         }
         job.join()
         getAllBreeds()
+        if (breedList.value.isEmpty()) {
+            if (!breedRepository.isConnected()) {
+                breedRepository.registerNetworkCallback(this)
+            }
+        }
         isLoading.value = false
     }
 
-    private suspend fun getAllBreeds() {
+    suspend fun getAllBreeds() {
         breedList.value = breedRepository.getAllBreedsFromDb(
             searchFilter = prepareSearchFilter(SearchManager.searchFilter.value),
             filterFavourites = filterFavourite.value
