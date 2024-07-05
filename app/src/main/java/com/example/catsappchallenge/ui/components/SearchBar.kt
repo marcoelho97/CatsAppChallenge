@@ -17,7 +17,7 @@ import com.example.catsappchallenge.utils.SearchManager
 
 @Composable
 fun SearchBar() {
-    var searchText by remember { mutableStateOf("") }
+    var searchText by remember { mutableStateOf(SearchManager.searchFilter.value) }
 
     Box(
         modifier = Modifier
@@ -25,7 +25,7 @@ fun SearchBar() {
             .padding(16.dp)
     ) {
         TextField(
-            value = searchText,
+            value = searchText ?: "",
             onValueChange = {
                 searchText = it
                 SearchManager.setSearchQuery(it)

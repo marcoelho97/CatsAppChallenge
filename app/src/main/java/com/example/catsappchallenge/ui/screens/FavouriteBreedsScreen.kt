@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
+import com.example.catsappchallenge.ui.components.SearchBar
 import com.example.catsappchallenge.ui.components.list.CatsGrid
 import com.example.catsappchallenge.ui.components.list.ListsBottomAppBar
 import com.example.catsappchallenge.viewmodel.BreedViewModel
@@ -44,6 +45,7 @@ fun FavouriteBreedsScreen(
                 .fillMaxSize()
                 .padding(paddingValues = innerPadding)
         ) {
+            SearchBar()
             CatsGrid(breedList = breedList, breedViewModel = breedViewModel)
         }
     }
