@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -73,7 +74,10 @@ fun CatCard(navController: NavController, breed: BreedListDTO, breedViewModel: B
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box {
-            ImageBox(breed = breed)
+            ImageBox(
+                breedImage = breed.image,
+                modifier = Modifier.size(128.dp)
+            )
             FavouriteIcon(breedViewModel = breedViewModel, breed = breed)
         }
         Spacer(modifier = Modifier.height(5.dp))

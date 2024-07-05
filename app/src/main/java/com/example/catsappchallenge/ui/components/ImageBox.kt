@@ -1,7 +1,6 @@
 package com.example.catsappchallenge.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,33 +9,39 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.catsappchallenge.data.model.BreedListDTO
+import coil.size.Size
 import com.example.catsappchallenge.network.RetrofitInstance
 
 @Composable
-fun ImageBox(breed: BreedListDTO) {
+fun ImageBox(
+    breedImage: String?,
+    modifier: Modifier,
+    contentScale: ContentScale = ContentScale.Crop
+) {
     var retryAttempted by remember { mutableStateOf(false) }
     var imageUrl by remember {
         mutableStateOf(
             RetrofitInstance.BASE_IMAGE_URL(
-                breedImage = breed.image ?: "",
+                breedImage = breedImage ?: "",
                 alternativeExtension = null
             )
         )
     }
+
+    // Size.Original to fix problem between Coil and Scrollable Columns
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
+            .size(Size.ORIGINAL)
             .data(imageUrl)
             .crossfade(true)
             .listener(
                 onError = { _, _ ->
                     // Very rare cases' alternative extension is .png
-                    if (!retryAttempted && breed.image != null) {
+                    if (!retryAttempted && breedImage != null) {
                         imageUrl = RetrofitInstance.BASE_IMAGE_URL(
-                            breedImage = breed.image,
+                            breedImage = breedImage,
                             alternativeExtension = ".png"
                         )
                         retryAttempted = true
@@ -50,8 +55,8 @@ fun ImageBox(breed: BreedListDTO) {
     Image(
         painter = painter,
         contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier.size(128.dp)
+        contentScale = contentScale,
+        modifier = modifier
     )
 
 }
