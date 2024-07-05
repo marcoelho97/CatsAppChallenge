@@ -35,7 +35,6 @@ fun BoxScope.FavouriteIcon(breedViewModel: BreedViewModel, breed: BreedListDTO) 
                 },
                 indication = null
             ) {
-                // TODO: ViewModel to change favourite status
                 breedViewModel.viewModelScope.launch {
                     if (breedViewModel.updateFavourite(breed.id, !breed.favourite)) {
                         isFavourite = !isFavourite

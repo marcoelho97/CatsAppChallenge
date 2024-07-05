@@ -90,7 +90,6 @@ class MainActivity : ComponentActivity() {
                 viewModel(factory = BreedViewModelFactory(breedRepository))
             val isLoading = breedViewModel.isLoading.value
             CatsAppChallengeTheme {
-                // TODO: Confirm if this works offline and with problems on the api
                 when {
                     isLoading -> {
                         Box(

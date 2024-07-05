@@ -1,6 +1,5 @@
 package com.example.catsappchallenge.ui.components.list
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,10 +21,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.catsappchallenge.R
 import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.ui.components.FavouriteIcon
 import com.example.catsappchallenge.ui.components.ImageBox
 import com.example.catsappchallenge.ui.screens.Screen
+import com.example.catsappchallenge.utils.toastMessage
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 
 @Composable
@@ -59,14 +60,7 @@ fun CatCard(navController: NavController, breed: BreedListDTO, breedViewModel: B
             .fillMaxWidth()
             .clickable {
                 if (breed.id.isBlank()) {
-                    // TODO: Better messages, preventing code repetition
-                    Toast
-                        .makeText(
-                            context,
-                            "No detailed information about this breed, for now.",
-                            Toast.LENGTH_SHORT
-                        )
-                        .show()
+                    toastMessage(context, R.string.list_item_click_breedId_blank)
                 } else {
                     navController.navigate(Screen.DetailedBreedScreen.createRoute(breed.id))
                 }

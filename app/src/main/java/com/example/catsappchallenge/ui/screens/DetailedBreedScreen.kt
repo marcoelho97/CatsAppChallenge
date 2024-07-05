@@ -1,10 +1,11 @@
 package com.example.catsappchallenge.ui.screens
 
 import android.content.Context
-import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,18 +39,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.catsappchallenge.R
 import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.breedListDTO
 import com.example.catsappchallenge.ui.components.FavouriteIcon
 import com.example.catsappchallenge.ui.components.ImageBox
+import com.example.catsappchallenge.utils.toastMessage
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 
 private fun invalidDetailScreen(
     context: Context,
     navController: NavController,
-    message: String
+    message: Int
 ) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    toastMessage(context, message)
     navController.popBackStack()
 }
 
@@ -65,7 +69,7 @@ fun DetailedBreedScreen(
             invalidDetailScreen(
                 context = context,
                 navController = navController,
-                message = "Invalid"
+                message = R.string.detailed_breedId_blank
             )
         }
     } else {
@@ -80,17 +84,59 @@ fun DetailedBreedScreen(
                 invalidDetailScreen(
                     context = context,
                     navController = navController,
-                    message = "Invalid2"
+                    message = R.string.detailed_breed_not_found
                 )
             } else {
                 breed = fetchedBreed
             }
         }
         if (breed == null) {
-            // TODO: Make this more presentable and with a return button, in case it takes too long
-            Text(text = "Loading breed details....")
+            LoadingDetailedBreed(navController = navController)
         } else {
             DetailedBreedContent(navController, breedViewModel, breed!!, modifier)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoadingDetailedBreed(
+    navController: NavController
+) {
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = ""
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Go back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Loading breed details...."
+            )
         }
     }
 }

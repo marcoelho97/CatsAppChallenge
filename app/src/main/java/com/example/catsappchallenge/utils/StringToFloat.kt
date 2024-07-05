@@ -1,7 +1,7 @@
 package com.example.catsappchallenge.utils
 
 fun splitLifeSpan(lifeSpan: String?): Pair<Float, Float> {
-    if(lifeSpan == null) {
+    if (lifeSpan == null) {
         return 0f to 0f
     }
 
@@ -15,7 +15,7 @@ fun splitLifeSpan(lifeSpan: String?): Pair<Float, Float> {
     )
 
     // Make sure the lowerLifeSpan is always lower than the higherLifeSpan
-    if(lifeSpanValues.first > lifeSpanValues.second) {
+    if (lifeSpanValues.first > lifeSpanValues.second) {
         lifeSpanValues = lifeSpanValues.second to lifeSpanValues.first
     }
 
@@ -32,7 +32,7 @@ fun convertNumbers(lower: String, higher: String): Pair<Float, Float> {
      */
     return when {
         lowerLifeSpan == null && higherLifeSpan == null -> 0f to 0f
-        lowerLifeSpan == null  -> higherLifeSpan!! to higherLifeSpan
+        lowerLifeSpan == null -> higherLifeSpan!! to higherLifeSpan
         higherLifeSpan == null -> lowerLifeSpan to lowerLifeSpan
         else -> lowerLifeSpan to higherLifeSpan
     }
