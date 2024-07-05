@@ -44,6 +44,7 @@ import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.breedListDTO
 import com.example.catsappchallenge.ui.components.FavouriteIcon
 import com.example.catsappchallenge.ui.components.ImageBox
+import com.example.catsappchallenge.utils.NavigationSpamProtector.onNavigationIconClick
 import com.example.catsappchallenge.utils.toastMessage
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 
@@ -103,7 +104,6 @@ fun DetailedBreedScreen(
 fun LoadingDetailedBreed(
     navController: NavController
 ) {
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -113,9 +113,7 @@ fun LoadingDetailedBreed(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
+                    IconButton(onClick = { onNavigationIconClick(navController) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Go back"
@@ -159,9 +157,7 @@ fun DetailedBreedContent(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
+                    IconButton(onClick = { onNavigationIconClick(navController) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Go back"
