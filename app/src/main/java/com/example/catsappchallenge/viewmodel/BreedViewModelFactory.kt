@@ -10,7 +10,6 @@ class BreedViewModelFactory(private val repository: BreedRepository): ViewModelP
             @Suppress("UNCHECKED_CAST")
             return BreedViewModel(repository) as T
         }
-        // TODO: Inform user that something went awry
         throw IllegalArgumentException("Unknown model class")
     }
 }

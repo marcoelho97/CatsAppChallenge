@@ -136,7 +136,6 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
         favourite: Boolean
     ): Boolean =
         withContext(Dispatchers.IO) {
-            // TODO: Test with a non existent ID
             return@withContext breedDao.updateFavouriteByBreedId(
                 breedId = breedId,
                 favourite = favourite

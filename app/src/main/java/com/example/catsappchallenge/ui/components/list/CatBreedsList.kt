@@ -61,7 +61,6 @@ fun CatCard(navController: NavController, breed: BreedListDTO, breedViewModel: B
             .fillMaxWidth()
             .clickable {
                 if (breed.id.isBlank()) {
-                    // TODO: Better messages, preventing code repetition
                     toastMessage(context, R.string.list_item_click_breedId_blank)
                 } else {
                     navController.navigate(Screen.DetailedBreedScreen.createRoute(breed.id))

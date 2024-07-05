@@ -12,7 +12,6 @@ object RetrofitInstance {
     }
 
     val api: CatApiService by lazy {
-        // TODO: Check if has internet before going forward, as it'll crash
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
