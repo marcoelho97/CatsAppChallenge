@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.example.catsappchallenge.ui.components.SearchBar
 import com.example.catsappchallenge.ui.components.list.CatsGrid
+import com.example.catsappchallenge.ui.components.list.ListsBottomAppBar
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,17 +26,14 @@ fun CatBreedsScreen(
     val breedList = breedViewModel.breedList.value
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        fontWeight = FontWeight.ExtraBold,
-                        text = "Cats App"
-                    )
-                }
-            )
+            TopAppBar(title = {
+                Text(
+                    fontWeight = FontWeight.ExtraBold, text = "Cats App"
+                )
+            })
         },
         bottomBar = {
-            // TODO: Bottom navigation bar
+            ListsBottomAppBar(navController = navController)
         },
         modifier = modifier
     ) { innerPadding ->
