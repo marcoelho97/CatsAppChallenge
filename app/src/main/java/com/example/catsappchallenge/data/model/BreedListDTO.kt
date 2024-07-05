@@ -6,3 +6,12 @@ data class BreedListDTO (
     val image: String?,
     val favourite: Boolean
 )
+
+fun breedListDTO(breed: Breed): BreedListDTO {
+    return BreedListDTO(
+        breed.id,
+        breed.name,
+        breed.image,
+        breed.favourite
+    )
+}
