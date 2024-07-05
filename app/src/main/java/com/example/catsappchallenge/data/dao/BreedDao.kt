@@ -24,5 +24,5 @@ interface BreedDao {
     fun getAllBreeds(searchFilter: String = "%", filterFavourite: Boolean?): List<BreedListDTO>
 
     @Query("SELECT * FROM breed WHERE id = :breedId")
-    fun getBreedById(breedId: String): Breed
+    suspend fun getBreedById(breedId: String): Breed?
 }

@@ -54,7 +54,7 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
             return@withContext breedList
         }
 
-    fun getBreedById(breedId: String): Breed {
+    suspend fun getBreedById(breedId: String): Breed? {
         return breedDao.getBreedById(breedId)
     }
 
