@@ -1,20 +1,14 @@
 package com.example.catsappchallenge
 
-import androidx.room.Room
 import androidx.room.Room.inMemoryDatabaseBuilder
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
 import com.example.catsappchallenge.data.dao.BreedDao
 import com.example.catsappchallenge.data.database.CatsAppDatabase
 import com.example.catsappchallenge.data.model.Breed
-import com.example.catsappchallenge.data.model.BreedListDTO
-import com.example.catsappchallenge.data.model.breedListDTO
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.*
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -135,6 +129,6 @@ class BreedDaoTest {
 
         val loadedBreeds = breedDao.getAllBreeds("%reedO%", null)
         assertEquals(loadedBreeds.size, 1)
-        assertEquals(loadedBreeds[0].id,"abc")
+        assertEquals(loadedBreeds[0].id, "abc")
     }
 }
