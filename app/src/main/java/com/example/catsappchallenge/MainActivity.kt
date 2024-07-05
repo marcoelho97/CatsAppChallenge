@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.catsappchallenge.data.database.CatsAppDatabase
 import com.example.catsappchallenge.repository.BreedRepository
 import com.example.catsappchallenge.ui.screens.CatBreedsScreen
+import com.example.catsappchallenge.ui.screens.Screen
 import com.example.catsappchallenge.ui.theme.CatsAppChallengeTheme
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 import com.example.catsappchallenge.viewmodel.BreedViewModelFactory
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
     fun AppNavigation(breedViewModel: BreedViewModel) {
         val navController = rememberNavController()
 
-        NavHost(navController = navController, startDestination = "cat-breeds-screen") {
+        NavHost(navController = navController, startDestination = Screen.BreedsListScreen.route) {
             navigationGraph(navController = navController, breedViewModel = breedViewModel)
         }
     }
@@ -37,7 +38,7 @@ class MainActivity : ComponentActivity() {
         navController: NavController,
         breedViewModel: BreedViewModel
     ) {
-        composable(route = "cat-breeds-screen") {
+        composable(route = Screen.BreedsListScreen.route) {
             CatBreedsScreen(
                 navController = navController,
                 breedViewModel = breedViewModel,
