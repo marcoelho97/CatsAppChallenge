@@ -21,6 +21,8 @@ class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel()
     // Loading status
     val isLoading: MutableState<Boolean> = mutableStateOf(true)
 
+    var averageLifeSpan: Double = 0.0
+
     init {
         viewModelScope.launch {
             fetchAndInsertAll()
@@ -53,6 +55,13 @@ class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel()
             searchFilter = prepareSearchFilter(SearchManager.searchFilter.value),
             filterFavourites = filterFavourite.value
         )
+        averageLifeSpan = if (breedList.value.size > 0) {
+            breedList.value.map { breed ->
+                breed.highLifeSpan
+            }.average()
+        } else {
+            0.0
+        }
     }
 
     suspend fun updateFilterFavourites(filterFavourite: Boolean?) {

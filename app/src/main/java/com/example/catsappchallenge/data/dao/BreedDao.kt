@@ -17,7 +17,7 @@ interface BreedDao {
     @Query("UPDATE breed SET favourite = :favourite WHERE id = :breedId")
     suspend fun updateFavouriteByBreedId(breedId: String, favourite: Boolean): Int
 
-    @Query("SELECT id, name, image, favourite FROM breed " +
+    @Query("SELECT id, name, image, favourite, highLifeSpan FROM breed " +
             "WHERE (:filterFavourite IS NULL OR favourite = :filterFavourite) " +
             "AND name LIKE :searchFilter")
     fun getAllBreeds(searchFilter: String = "%", filterFavourite: Boolean?): List<BreedListDTO>
