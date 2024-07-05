@@ -46,7 +46,11 @@ fun FavouriteBreedsScreen(
                 .padding(paddingValues = innerPadding)
         ) {
             SearchBar()
-            CatsGrid(breedList = breedList, breedViewModel = breedViewModel)
+            CatsGrid(
+                navController = navController,
+                breedList = breedList,
+                breedViewModel = breedViewModel
+            )
         }
     }
 }

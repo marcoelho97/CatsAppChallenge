@@ -1,6 +1,5 @@
 package com.example.catsappchallenge.data.dao
 
-import android.util.Log
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
@@ -16,7 +15,7 @@ interface BreedDao {
     suspend fun upsertBreedList(breeds: List<Breed>)
 
     @Query("UPDATE breed SET favourite = :favourite WHERE id = :breedId")
-    suspend fun updateFavouriteByBreedId(breedId: String, favourite: Boolean)
+    suspend fun updateFavouriteByBreedId(breedId: String, favourite: Boolean): Int
 
     @Query("SELECT id, name, image, favourite FROM breed " +
             "WHERE (:filterFavourite IS NULL OR favourite = :filterFavourite) " +
@@ -24,5 +23,5 @@ interface BreedDao {
     fun getAllBreeds(searchFilter: String = "%", filterFavourite: Boolean?): List<BreedListDTO>
 
     @Query("SELECT * FROM breed WHERE id = :breedId")
-    fun getBreedById(breedId: String): Breed
+    suspend fun getBreedById(breedId: String): Breed?
 }
