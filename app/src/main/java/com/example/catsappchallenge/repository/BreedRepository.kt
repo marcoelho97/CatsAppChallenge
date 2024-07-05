@@ -7,12 +7,14 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.widget.Toast
+import com.example.catsappchallenge.R
 import com.example.catsappchallenge.data.dao.BreedDao
 import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.network.RetrofitInstance
 import com.example.catsappchallenge.utils.SearchManager.prepareSearchFilter
 import com.example.catsappchallenge.utils.splitLifeSpan
+import com.example.catsappchallenge.utils.toastMessage
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -109,12 +111,7 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
             breedDao.upsertBreedList(breedsToInsert)
             breedViewModel?.getAllBreeds()
         } catch (e: Exception) {
-            // TODO: 2. Better messages, preventing code repetition
-            Toast.makeText(
-                context,
-                "Couldn't retrieve Breeds, please try again later.",
-                Toast.LENGTH_SHORT
-            ).show()
+            toastMessage(context, R.string.list_error_fetching_breeds)
         }
     }
 

@@ -37,18 +37,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.catsappchallenge.R
 import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.breedListDTO
 import com.example.catsappchallenge.ui.components.FavouriteIcon
 import com.example.catsappchallenge.ui.components.ImageBox
+import com.example.catsappchallenge.utils.toastMessage
 import com.example.catsappchallenge.viewmodel.BreedViewModel
 
 private fun invalidDetailScreen(
     context: Context,
     navController: NavController,
-    message: String
+    message: Int
 ) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    toastMessage(context, message)
     navController.popBackStack()
 }
 
@@ -65,7 +67,7 @@ fun DetailedBreedScreen(
             invalidDetailScreen(
                 context = context,
                 navController = navController,
-                message = "Invalid"
+                message = R.string.detailed_breedId_blank
             )
         }
     } else {
@@ -80,7 +82,7 @@ fun DetailedBreedScreen(
                 invalidDetailScreen(
                     context = context,
                     navController = navController,
-                    message = "Invalid2"
+                    message = R.string.detailed_breed_not_found
                 )
             } else {
                 breed = fetchedBreed
