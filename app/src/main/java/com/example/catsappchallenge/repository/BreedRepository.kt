@@ -74,6 +74,11 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
         )
     }
 
+    private fun unregisterNetworkCallback() {
+        // Unregister network callback to avoid memory leaks
+        connectivityManager.unregisterNetworkCallback(ConnectivityManager.NetworkCallback())
+    }
+
     suspend fun fetchAndInsertAllBreeds() = withContext(Dispatchers.IO) {
         val breedList = getAllBreedsFromDb(searchFilter = null, filterFavourites = null)
         if (breedList.isNotEmpty()) {
@@ -109,6 +114,7 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
             }
             breedDao.upsertBreedList(breedsToInsert)
             breedViewModel?.getAllBreeds()
+            unregisterNetworkCallback()
         } catch (e: Exception) {
             toastMessage(context, R.string.list_error_fetching_breeds)
         }
