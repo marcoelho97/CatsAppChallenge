@@ -18,7 +18,7 @@ import com.example.catsappchallenge.viewmodel.BreedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CatBreedsScreen(
+fun BreedsScreen(
     navController: NavController,
     breedViewModel: BreedViewModel,
     modifier: Modifier
@@ -33,7 +33,10 @@ fun CatBreedsScreen(
             })
         },
         bottomBar = {
-            ListsBottomAppBar(navController = navController)
+            ListsBottomAppBar(
+                navController = navController,
+                breedViewModel = breedViewModel
+            )
         },
         modifier = modifier
     ) { innerPadding ->
