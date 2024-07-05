@@ -69,9 +69,13 @@ class MainActivity : ComponentActivity() {
             })
         ) { backStackEntry ->
             val breedId = backStackEntry.arguments?.getString("breedId")
+            DetailedBreedScreen(
+                navController = navController,
+                breedViewModel = breedViewModel,
+                breedId = breedId,
+                modifier = Modifier
+            )
         }
-
-        // TODO: Breed info screen
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
