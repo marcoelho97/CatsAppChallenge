@@ -49,7 +49,12 @@ fun ListsBottomAppBar(
         )
         IconButton(
             onClick = {
-                // TODO: Favourite list
+                breedViewModel.viewModelScope.launch {
+                    breedViewModel.updateFilterFavourites(true)
+                }
+                navController.navigate(Screen.FavouriteBreedsScreen.route) {
+                    popUpTo(0)
+                }
             },
             modifier = Modifier.weight(1f)
         ) {
