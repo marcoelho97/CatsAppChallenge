@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class BreedRepository(private val context: Context, private val breedDao: BreedDao) {
-    private val contextForRepository = context.applicationContext
     private var breedList: List<BreedListDTO> = emptyList()
 
     private lateinit var connectivityManager: ConnectivityManager
