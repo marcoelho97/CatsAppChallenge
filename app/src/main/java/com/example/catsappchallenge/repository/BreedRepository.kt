@@ -5,6 +5,7 @@ import com.example.catsappchallenge.data.dao.BreedDao
 import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.network.RetrofitInstance
+import com.example.catsappchallenge.utils.SearchManager.prepareSearchFilter
 import com.example.catsappchallenge.utils.splitLifeSpan
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,8 +15,8 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
     private var breedList: List<BreedListDTO> = emptyList()
 
     suspend fun fetchAndInsertAllBreeds() = withContext(Dispatchers.IO) {
-        val breedList = getAllBreedsFromDb()
-        if(breedList.isNotEmpty()) {
+        val breedList = getAllBreedsFromDb(searchFilter = null)
+        if (breedList.isNotEmpty()) {
             return@withContext
         }
 
@@ -41,24 +42,29 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
         return@withContext
     }
 
-    suspend fun getAllBreedsFromDb(): List<BreedListDTO> = withContext(Dispatchers.IO) {
-        if(breedList.isNotEmpty()) {
+    suspend fun getAllBreedsFromDb(searchFilter: String?): List<BreedListDTO> =
+        withContext(Dispatchers.IO) {
+            breedList = breedDao.getAllBreeds(
+                searchFilter = prepareSearchFilter(searchFilter),
+                filterFavourite = null
+            )
             return@withContext breedList
         }
-        breedList = breedDao.getAllBreeds(null)
-        return@withContext breedList
-    }
 
     fun getBreedById(breedId: String): Breed {
         return breedDao.getBreedById(breedId)
     }
 
-    suspend fun updateFavouriteByBreed(breed: Breed, favourite: Boolean) = withContext(Dispatchers.IO) {
-        // TODO: Test with a non existent ID
-        breedDao.updateFavouriteByBreedId(
-            breedId = breed.id,
-            favourite = favourite
-        )
-        breedList = getAllBreedsFromDb()
-    }
+    suspend fun updateFavouriteByBreed(
+        breedId: String,
+        favourite: Boolean
+    ) =
+        withContext(Dispatchers.IO) {
+            // TODO: Test with a non existent ID
+            breedDao.updateFavouriteByBreedId(
+                breedId = breedId,
+                favourite = favourite
+            )
+            return@withContext
+        }
 }

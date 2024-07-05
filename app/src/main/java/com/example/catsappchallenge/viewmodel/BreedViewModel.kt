@@ -4,12 +4,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.catsappchallenge.data.model.Breed
 import com.example.catsappchallenge.data.model.BreedListDTO
 import com.example.catsappchallenge.repository.BreedRepository
+import com.example.catsappchallenge.utils.SearchManager
+import com.example.catsappchallenge.utils.SearchManager.prepareSearchFilter
 import kotlinx.coroutines.launch
 
-class BreedViewModel(private val breedRepository: BreedRepository): ViewModel() {
+class BreedViewModel(private val breedRepository: BreedRepository) : ViewModel() {
     // Breed List
     val breedList: MutableState<List<BreedListDTO>> = mutableStateOf(emptyList())
 
@@ -19,6 +20,11 @@ class BreedViewModel(private val breedRepository: BreedRepository): ViewModel() 
     init {
         viewModelScope.launch {
             fetchAndInsertAll()
+        }
+        SearchManager.searchFilter.observeForever {
+            viewModelScope.launch {
+                getAllBreeds()
+            }
         }
     }
 
@@ -33,13 +39,18 @@ class BreedViewModel(private val breedRepository: BreedRepository): ViewModel() 
     }
 
     private suspend fun getAllBreeds() {
-        breedList.value = breedRepository.getAllBreedsFromDb()
+        breedList.value = breedRepository.getAllBreedsFromDb(
+            searchFilter = prepareSearchFilter(SearchManager.searchFilter.value)
+        )
     }
 
     // TODO: getBreedById
 
-    suspend fun updateFavourite(breed: Breed, favourite: Boolean) {
-        breedRepository.updateFavouriteByBreed(breed, favourite)
+    suspend fun updateFavourite(breedId: String, favourite: Boolean) {
+        breedRepository.updateFavouriteByBreed(
+            breedId = breedId,
+            favourite = favourite
+        )
         getAllBreeds()
     }
 
