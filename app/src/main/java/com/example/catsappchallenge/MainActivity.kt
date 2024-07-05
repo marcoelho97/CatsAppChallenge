@@ -13,12 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.catsappchallenge.data.database.CatsAppDatabase
 import com.example.catsappchallenge.repository.BreedRepository
 import com.example.catsappchallenge.ui.screens.BreedsScreen
+import com.example.catsappchallenge.ui.screens.DetailedBreedScreen
 import com.example.catsappchallenge.ui.screens.FavouriteBreedsScreen
 import com.example.catsappchallenge.ui.screens.Screen
 import com.example.catsappchallenge.ui.theme.CatsAppChallengeTheme
@@ -30,7 +33,11 @@ class MainActivity : ComponentActivity() {
     fun AppNavigation(breedViewModel: BreedViewModel) {
         val navController = rememberNavController()
 
-        NavHost(navController = navController, startDestination = Screen.BreedsListScreen.route) {
+        NavHost(
+            navController = navController,
+            startDestination = Screen.BreedsListScreen.route,
+            modifier = Modifier.fillMaxSize()
+        ) {
             navigationGraph(navController = navController, breedViewModel = breedViewModel)
         }
     }
@@ -53,6 +60,15 @@ class MainActivity : ComponentActivity() {
                 breedViewModel = breedViewModel,
                 modifier = Modifier
             )
+        }
+
+        composable(
+            route = Screen.DetailedBreedScreen.route,
+            arguments = listOf(navArgument("breedId") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val breedId = backStackEntry.arguments?.getString("breedId")
         }
 
         // TODO: Breed info screen
