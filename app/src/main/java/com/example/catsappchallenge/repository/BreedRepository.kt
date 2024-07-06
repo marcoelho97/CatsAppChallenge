@@ -6,6 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import android.widget.Toast
 import com.example.catsappchallenge.R
 import com.example.catsappchallenge.data.dao.BreedDao
 import com.example.catsappchallenge.data.model.Breed
@@ -27,8 +28,7 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
 
     fun isConnected(): Boolean {
         val hasInternet: Boolean
-
-        val connectivityManager =
+        connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -76,7 +76,11 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
 
     private fun unregisterNetworkCallback() {
         // Unregister network callback to avoid memory leaks
-        connectivityManager.unregisterNetworkCallback(ConnectivityManager.NetworkCallback())
+        try {
+            connectivityManager.unregisterNetworkCallback(ConnectivityManager.NetworkCallback())
+        } catch(_: Exception) {
+
+        }
     }
 
     suspend fun fetchAndInsertAllBreeds() = withContext(Dispatchers.IO) {
@@ -88,6 +92,9 @@ class BreedRepository(private val context: Context, private val breedDao: BreedD
         // If isn't connected, ViewModel will registerNetworkCallback
         if (isConnected()) {
             fetchAndInsertBreeds()
+        }
+        else {
+            toastMessage(context, R.string.list_internet_problem, Toast.LENGTH_LONG)
         }
         return@withContext
     }

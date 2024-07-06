@@ -2,6 +2,7 @@
     <string name="app_name">Cats App Challenge</string>
     <string name="list_item_click_breedId_blank">No detailed information about this breed, for now.</string>
     <string name="list_error_fetching_breeds">Couldn\'t retrieve Breeds, please try again later.</string>
+    <string name="list_internet_problem">You seem to be offline. Information will be loaded once you get back online!</string>
     <string name="detailed_breedId_blank">Couldn\'t retrieve information about this breed, please try again later.</string>
     <string name="detailed_breed_not_found">Couldn\'t retrieve information about this breed, please try again later.</string>
 </resources>
